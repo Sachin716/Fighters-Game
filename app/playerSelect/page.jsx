@@ -1,45 +1,91 @@
 'use client';
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useRef, useState, useEffect } from "react";
 
 
 const Local = () => {
 
+
     const P1Details = useRef({
         selectionIndex: 0,
         selected: false
     });
+    const [P1DetailsState, setP1Details] = useState({ ...P1Details.current })
+
+
     const P2Details = useRef({
         selectionIndex: 4,
         selected: false
     });
+    const [P2DetailsState, setP2Details] = useState({ ...P2Details.current })
+    var newindex = 0
+    function updateKeyStats(event) {
 
-    function handleKeyDown(e) {
-        if (e.keyCode == 87) {
-            P1Details.current.selectionIndex = P1Details.prev.selectionIndex - 5
+        if (!P1Details.current.selected) {
+            if (event.keyCode == 87) { // w
+                newindex = Math.max(0, P1Details.current.selectionIndex - 5);
+                P1Details.current.selectionIndex = newindex
+            }
+            if (event.keyCode == 83) { // s
+                newindex = Math.min(14, P1Details.current.selectionIndex + 5) > 14 ? P1Details.current.selectionIndex : Math.min(14, P1Details.current.selectionIndex + 5)
+                P1Details.current.selectionIndex = newindex
+            }
+            if (event.keyCode == 65) { // a
+                newindex = Math.max(0, P1Details.current.selectionIndex - 1);
+                P1Details.current.selectionIndex = newindex
+            }
+            if (event.keyCode == 68) { // d
+                newindex = Math.min(14, P1Details.current.selectionIndex + 1) > 14 ? P1Details.current.selectionIndex : Math.min(14, P1Details.current.selectionIndex + 1)
+                P1Details.current.selectionIndex = newindex
+            }
         }
-        if (e.keyCode == 83) {
-            P1Details.current.selectionIndex = P1Details.prev.selectionIndex + 5
+
+        if (!P2Details.current.selected) {
+            if (event.keyCode == 38) { // w
+                newindex = Math.max(0, P2Details.current.selectionIndex - 5);
+                P2Details.current.selectionIndex = newindex
+            }
+            if (event.keyCode == 40) { // s
+                newindex = Math.min(14, P2Details.current.selectionIndex + 5) > 14 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 5)
+                P2Details.current.selectionIndex = newindex
+            }
+            if (event.keyCode == 37) { // a
+                newindex = Math.max(0, P2Details.current.selectionIndex - 1);
+                P2Details.current.selectionIndex = newindex
+            }
+            if (event.keyCode == 39) { // d
+                newindex = Math.min(14, P2Details.current.selectionIndex + 1) > 14 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 1)
+                P2Details.current.selectionIndex = newindex
+            }
         }
-        if (e.keyCode == 65) {
-            P1Details.current.selectionIndex = P1Details.prev.selectionIndex - 1
-        }
-        if (e.keyCode == 68) {
-            P1Details.current.selectionIndex = P1Details.prev.selectionIndex + 1
-        }
+
+
+        setP1Details({ ...P1Details.current })
+        setP2Details({ ...P2Details.current })
 
     }
 
-    useEffect(() => {
-        addEventListener('onkeydown', (e) => { handleKeyDown(e) })
 
+    useEffect(() => {
+        addEventListener('keydown', updateKeyStats)
         return () => {
-            removeEventListener('onkeydown', (e) => { handleKeyDown(e) })
+            removeEventListener('keydown', updateKeyStats)
         }
     })
 
+
+
+    const playLoop = () => {
+        setP1Details({ ...P1Details.current })
+        setP2Details({ ...P2Details.current })
+        window.requestAnimationFrame(playLoop)
+    }
+
+    useEffect(() => {
+        playLoop();
+    }, [])
 
 
 
@@ -117,11 +163,9 @@ const Local = () => {
                 {
                     Characters.current.map((c, index) => {
                         if (P1Details.current.selectionIndex == index) {
-                            console.log(index)
                             return (<div key={index} className={`bg-blue-500 h-[33%] w-[20%] flex items-center justify-center`}  > {c.name} </div>)
                         }
                         else if (P2Details.current.selectionIndex == index) {
-                            console.log('found p2')
                             return (<div key={index} className={`bg-green-500 h-[33%] w-[20%] flex items-center justify-center`}  > {c.name} </div>)
                         }
                         else {
@@ -131,8 +175,12 @@ const Local = () => {
                 }
             </div>
 
-            <div className="bg-zinc-500 fixed w-[30%] h-[40%] left-0 bottom-0 "></div>
-            <div className="bg-zinc-500 fixed w-[30%] h-[40%] right-0 bottom-0 "></div>
+            <div className="bg-zinc-500 fixed w-[30%] h-[40%] left-0 bottom-0 ">
+                {`P1 : ${Characters.current[P1Details.current.selectionIndex].name}`}
+            </div>
+            <div className="bg-zinc-500 fixed w-[30%] h-[40%] right-0 bottom-0 ">
+                {`${Characters.current[P2Details.current.selectionIndex].name} : P2`}
+            </div>
         </div>
     );
 
