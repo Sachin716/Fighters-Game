@@ -2,12 +2,18 @@
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { setTimeout } from "timers";
+
 
 export default function Home() {
+
+  async function handleRouting(params) {
+    await setInterval(1000,router.push('/playerSelect'))
+  }
+
   const router = useRouter();
   const [modeIndex, setMode] = useState(4)
   const modeIndexRef = useRef(4)
-
   const change = useRef(false);
   const Selection = useRef(false);
 
@@ -84,12 +90,32 @@ export default function Home() {
 
     if (event.keyCode == 13) {
       Selection.current.play()
+      if(modeIndexRef.current == 4){
+        localStorage.setItem("mode",'lc')
+        setTimeout(()=>{router.push('/playerSelect');},800)
+      }
+      if(modeIndexRef.current == 5){
+        localStorage.setItem("mode",'ol')
+        setTimeout(()=>{router.push('/playerSelect');},800)
+      }
+      if(modeIndexRef.current == 6){
+        localStorage.setItem("mode",'sp')
+        setTimeout(()=>{router.push('/playerSelect');},800)
+      }
+      if(modeIndexRef.current == 7){
+        localStorage.setItem("mode",'pr')
+        setTimeout(()=>{router.push('/playerSelect');},800)
+      }
+      
     }
     setMode(modeIndexRef.current)
   }
 
 
+
+
   useEffect(() => {
+    localStorage.removeItem("mode")
     window.addEventListener('keydown', handleKeyDown)
 
     return () => {
@@ -99,7 +125,11 @@ export default function Home() {
 
 
   return (
-    <div className="w-screen h-screen bg-zinc-950 flex">
+    <div className="w-screen h-screen bg-zinc-950 flex justify-center">
+      <img src="/ModeSelect/Logo_Bg.jpg" className="fixed w-[1000px] flex" />
+      { /*<div className=" w-[60%] h-[10%] top-[32%] fixed mx-auto text-right text-6xl font-extrabold italic bg-gradient-to-t flex justify-center from-orange-500 to-orange-300 bg-clip-text text-transparent z-[200]">
+        Bharuwa Fighters
+      </div> */ }
       <div className="w-full h-[15%] fixed bottom-[15%] left-[0px] z-[10]">
         {
           modes.current.map((item, index) => {

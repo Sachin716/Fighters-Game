@@ -29,7 +29,7 @@ const Local = () => {
                 P1Details.current.selectionIndex = newindex
             }
             if (event.keyCode == 83) { // s
-                newindex = Math.min(14, P1Details.current.selectionIndex + 5) > 14 ? P1Details.current.selectionIndex : Math.min(14, P1Details.current.selectionIndex + 5)
+                newindex = Math.min(14, P1Details.current.selectionIndex + 5) >= 15 ? P1Details.current.selectionIndex : Math.min(14, P1Details.current.selectionIndex + 5)
                 P1Details.current.selectionIndex = newindex
             }
             if (event.keyCode == 65) { // a
@@ -37,7 +37,7 @@ const Local = () => {
                 P1Details.current.selectionIndex = newindex
             }
             if (event.keyCode == 68) { // d
-                newindex = Math.min(14, P1Details.current.selectionIndex + 1) > 14 ? P1Details.current.selectionIndex : Math.min(14, P1Details.current.selectionIndex + 1)
+                newindex = Math.min(14, P1Details.current.selectionIndex + 1) >= 15 ? P1Details.current.selectionIndex : Math.min(14, P1Details.current.selectionIndex + 1)
                 P1Details.current.selectionIndex = newindex
             }
         }
@@ -48,7 +48,7 @@ const Local = () => {
                 P2Details.current.selectionIndex = newindex
             }
             if (event.keyCode == 40) { // down
-                newindex = Math.min(14, P2Details.current.selectionIndex + 5) > 14 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 5)
+                newindex = Math.min(14, P2Details.current.selectionIndex + 5) >= 15 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 5)
                 P2Details.current.selectionIndex = newindex
             }
             if (event.keyCode == 37) { // left
@@ -56,7 +56,7 @@ const Local = () => {
                 P2Details.current.selectionIndex = newindex
             }
             if (event.keyCode == 39) { // right
-                newindex = Math.min(14, P2Details.current.selectionIndex + 1) > 14 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 1)
+                newindex = Math.min(14, P2Details.current.selectionIndex + 1) >= 15 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 1)
                 P2Details.current.selectionIndex = newindex
             }
         }
@@ -92,65 +92,80 @@ const Local = () => {
     const Characters = useRef(
         [
             {
-                name: "Character1",
-                image: "imageUrl1"
+                name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
+                image: "Soon"
             },
             {
                 name: "Character2",
-                image: "imageUrl2"
+                showcase:"/PlayerSelect/Showcases/Character2.png",
+                image: "Char2Image"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
-                name: "Coming Soon",
-                image: "Soon"
+                name: "Baba Ramdev",
+                showcase:"/PlayerSelect/Showcases/Baba_Ramdev",
+                image: "/PlayerSelect/Baba_Ramdev.png"
             },
             {
                 name: "Coming Soon",
-                image: "Soon"
-            },
-
-            {
-                name: "Coming Soon",
-                image: "Soon"
-            },
-            {
-                name: "Coming Soon",
-                image: "Soon"
-            },
-            {
-                name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
 
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
             {
                 name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
+                image: "Soon"
+            },
+
+            {
+                name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
+                image: "Soon"
+            },
+            {
+                name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
+                image: "Soon"
+            },
+            {
+                name: "Coming Soon",
+                showcase:"/Unknown_Showcase.png",
                 image: "Soon"
             },
 
@@ -159,17 +174,17 @@ const Local = () => {
 
     return (
         <div className="bg-stone-950 w-screen h-screen flex flex-col">
-            <div className="w-[70%] h-[50%] bg-red-500  m-auto mt-[50px] flex-wrap flex ">
+            <div className="w-[60%] h-[50%] bg-red-500  m-auto mt-[50px] flex-wrap flex ">
                 {
                     Characters.current.map((c, index) => {
                         if (P1Details.current.selectionIndex == index) {
-                            return (<div key={index} className={`bg-blue-500 h-[33%] w-[20%] flex items-end justify-start`}  > {c.name} </div>)
+                            return (<div key={index} className={`bg-gradient-to-r from-red-900 via-transparent to-red-900  h-[33%] w-[20%] flex items-end justify-start border-[3px] border-blue-500 overflow-hidden`}  > <img src={c.image} alt={c.name} className="w-full mt-2"/> </div>)
                         }
                         else if (P2Details.current.selectionIndex == index) {
-                            return (<div key={index} className={`bg-green-500 h-[33%] w-[20%] flex items-end justify-start`}  > {c.name} </div>)
+                            return (<div key={index} className={` bg-gradient-to-r from-red-900 via-transparent to-red-900  h-[33%] w-[20%] flex items-end justify-start border-[3px] border-green-500 overflow-hidden`}  > <img src={c.image} alt={c.name} className="object-cover w-full"/> </div>)
                         }
                         else {
-                            return (<div key={index} className={`bg-red-500 h-[33%] w-[20%] flex items-end justify-start`}  > {c.name} </div>)
+                            return (<div key={index} className={` bg-red-500 h-[33%] w-[20%] flex items-end justify-start overflow-hidden`}  > <img src={c.image} alt={c.name} className="object-cover w-full" /> </div>)
                         }
                     })
                 }
