@@ -43,19 +43,19 @@ const Local = () => {
         }
 
         if (!P2Details.current.selected) {
-            if (event.keyCode == 38) { // w
+            if (event.keyCode == 38) { // up
                 newindex = Math.max(0, P2Details.current.selectionIndex - 5);
                 P2Details.current.selectionIndex = newindex
             }
-            if (event.keyCode == 40) { // s
+            if (event.keyCode == 40) { // down
                 newindex = Math.min(14, P2Details.current.selectionIndex + 5) > 14 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 5)
                 P2Details.current.selectionIndex = newindex
             }
-            if (event.keyCode == 37) { // a
+            if (event.keyCode == 37) { // left
                 newindex = Math.max(0, P2Details.current.selectionIndex - 1);
                 P2Details.current.selectionIndex = newindex
             }
-            if (event.keyCode == 39) { // d
+            if (event.keyCode == 39) { // right
                 newindex = Math.min(14, P2Details.current.selectionIndex + 1) > 14 ? P2Details.current.selectionIndex : Math.min(14, P2Details.current.selectionIndex + 1)
                 P2Details.current.selectionIndex = newindex
             }
@@ -163,13 +163,13 @@ const Local = () => {
                 {
                     Characters.current.map((c, index) => {
                         if (P1Details.current.selectionIndex == index) {
-                            return (<div key={index} className={`bg-blue-500 h-[33%] w-[20%] flex items-center justify-center`}  > {c.name} </div>)
+                            return (<div key={index} className={`bg-blue-500 h-[33%] w-[20%] flex items-end justify-start`}  > {c.name} </div>)
                         }
                         else if (P2Details.current.selectionIndex == index) {
-                            return (<div key={index} className={`bg-green-500 h-[33%] w-[20%] flex items-center justify-center`}  > {c.name} </div>)
+                            return (<div key={index} className={`bg-green-500 h-[33%] w-[20%] flex items-end justify-start`}  > {c.name} </div>)
                         }
                         else {
-                            return (<div key={index} className={`bg-red-500 h-[33%] w-[20%] flex items-center justify-center`}  > {c.name} </div>)
+                            return (<div key={index} className={`bg-red-500 h-[33%] w-[20%] flex items-end justify-start`}  > {c.name} </div>)
                         }
                     })
                 }
