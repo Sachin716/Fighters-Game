@@ -91,79 +91,79 @@ const Local = () => {
         [
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Baba Ramdev",
-                showcase:"/PlayerSelect/Showcases/Baba_Ramdev",
+                showcase:"/PlayerSelect/Showcases/Baba_Ramdev.png",
                 image: "/PlayerSelect/Baba_Ramdev.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
 
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
 
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
             {
                 name: "Coming Soon",
-                showcase:"/Unknown_Showcase.png",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
                 image: "/PlayerSelect/Unknown_Player.png"
             },
 
@@ -175,7 +175,10 @@ const Local = () => {
             <div className="w-full h-[10%] fixed left-[0px] bottom-[100px] border-b-[5px] border-t-[5px] border-zinc-400 bg-red-500 flex">
                 {
                     Characters.current.map((c, index) => {
-                        if (P1Details.current.selectionIndex == index) {
+                        if((P1Details.current.selectionIndex == P2Details.current.selectionIndex) && (P1Details.current.selectionIndex == index) ){
+                            return (<div key={index} className={`bg-gradient-to-r from-red-900 via-transparent to-red-900  flex items-end justify-start border-[3px] border-t-blue-500 border-l-blue-500 border-r-green-500 border-b-green-500 overflow-hidden`}  > <img src={c.image} alt={c.name} className="w-full mt-2"/> </div>)
+                        }
+                        else if (P1Details.current.selectionIndex == index) {
                             return (<div key={index} className={`bg-gradient-to-r from-red-900 via-transparent to-red-900  flex items-end justify-start border-[3px] border-blue-500 overflow-hidden`}  > <img src={c.image} alt={c.name} className="w-full mt-2"/> </div>)
                         }
                         else if (P2Details.current.selectionIndex == index) {
@@ -187,10 +190,24 @@ const Local = () => {
                     })
                 }
             </div>
+            
+            
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] left-[10%] bg-gradient-to-t from-blue-600 via-[#0000ff52] to-transparent  ">
+                <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
             </div>
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] right-[10%] bg-gradient-to-t from-green-600 via-[#00ff0052] to-transparent  ">
+            <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
             </div>
+        {/* <div className=" fixed w-[55%] left-0 bg-gradient-to-t from-red-500 to-red-600 bg-clip-text text-transparent  text-5xl font-extrabold h-[50px] text-right bottom-[calc(10%+350px)] ">
+                {Characters.current[P1Details.current.selectionIndex].name}
+            </div>
+            <div className=" fixed w-full bg-gradient-to-t from-red-500 to-red-600 bg-clip-text text-transparent  text-5xl font-extrabold h-[50px] flex items-center justify-center bottom-[calc(10%+300px)] ">
+                VS
+            </div>
+            <div className=" fixed right-0 w-[55%] bg-gradient-to-t from-red-500 to-red-600 bg-clip-text text-transparent  text-5xl font-extrabold h-[50px] text-left bottom-[calc(10%+250px)] ">
+                {Characters.current[P2Details.current.selectionIndex].name}
+            </div> 
+        */}
             <audio src={'/PlayerSelect/Audio/PlayerChange.wav'} ref={playerChange} />
         </div>
     );
