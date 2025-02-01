@@ -7,6 +7,13 @@ import { setTimeout } from "timers";
 
 export default function Home() {
 
+  useEffect(()=>{
+          if(window.innerHeight > window.innerWidth){
+              alert("The game isnt designed for the mobile Devices and is unplayable please try refraining from playing")
+          }
+      },[])
+
+
   async function handleRouting(params) {
     await setInterval(1000,router.push('/playerSelect'))
   }
@@ -130,7 +137,7 @@ export default function Home() {
       { /*<div className=" w-[60%] h-[10%] top-[32%] fixed mx-auto text-right text-6xl font-extrabold italic bg-gradient-to-t flex justify-center from-orange-500 to-orange-300 bg-clip-text text-transparent z-[200]">
         Bharuwa Fighters
       </div> */ }
-      <div className="w-full h-[15%] fixed bottom-[15%] left-[0px] z-[10]">
+      <div className="w-full h-[15%] fixed bottom-[15%] left-[0px] z-[10]  ">
         {
           modes.current.map((item, index) => {
             if ((index >= modeIndexRef.current - 1) && (index <= modeIndexRef.current + 1)) {

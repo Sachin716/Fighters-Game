@@ -1,0 +1,1 @@
+player select image resoltion must be 331x238
