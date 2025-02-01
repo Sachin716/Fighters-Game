@@ -7,6 +7,7 @@ import { useRef, useState, useEffect } from "react";
 
 const Local = () => {
 
+    const router = useRouter();
 
     
 
@@ -17,6 +18,13 @@ const Local = () => {
     const [P1DetailsState, setP1Details] = useState({ ...P1Details.current })
 
     const playerChange = useRef(false);
+    const bgm = useRef(false);
+
+
+    useEffect(()=>{
+        bgm.current.play();
+        bgm.current.volume = 0.2;
+    } ,[] )
 
     const P2Details = useRef({
         selectionIndex: 13,
@@ -28,6 +36,7 @@ const Local = () => {
     function handleChangeAudio(){
         playerChange.current.currentTime = 0;
         playerChange.current.play();
+        playerChange.current.volume = 0.2;
     }
 
     function updateKeyStats(event) {
@@ -92,79 +101,94 @@ const Local = () => {
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Baba Ramdev",
                 showcase:"/PlayerSelect/Showcases/Baba_Ramdev.png",
-                image: "/PlayerSelect/Baba_Ramdev.png"
+                image: "/PlayerSelect/Baba_Ramdev.png",
+                name_img:'/PlayerSelect/PlayerNames/Baba_Ramdev.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
-            },
-
-            {
-                name: "Coming Soon",
-                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
-            },
-            {
-                name: "Coming Soon",
-                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
-            },
-            {
-                name: "Coming Soon",
-                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
 
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
             {
                 name: "Coming Soon",
                 showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
-                image: "/PlayerSelect/Unknown_Player.png"
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
+            },
+
+            {
+                name: "Coming Soon",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
+            },
+            {
+                name: "Coming Soon",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
+            },
+            {
+                name: "Coming Soon",
+                showcase:"/PlayerSelect/Showcases/Unknown_Showcase.png",
+                image: "/PlayerSelect/Unknown_Player.png",
+                name_img:'/PlayerSelect/PlayerNames/Unknown_Name.png'
             },
 
         ]
@@ -172,7 +196,7 @@ const Local = () => {
 
     return (
         <div className="bg-stone-950 w-screen h-screen flex flex-col">
-            <div className="w-full h-[10%] fixed left-[0px] bottom-[100px] border-b-[5px] border-t-[5px] border-zinc-400 bg-red-500 flex">
+            <div className="w-[90%] h-[10%] fixed left-[5%] bottom-[100px] border-b-[5px] border-t-[5px] border-zinc-400 bg-red-500 flex">
                 {
                     Characters.current.map((c, index) => {
                         if((P1Details.current.selectionIndex == P2Details.current.selectionIndex) && (P1Details.current.selectionIndex == index) ){
@@ -194,20 +218,14 @@ const Local = () => {
             
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] left-[10%] bg-gradient-to-t from-blue-600 via-[#0000ff52] to-transparent  ">
                 <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
+                <img src={Characters.current[P1Details.current.selectionIndex].name_img} alt="Character_Name" className=" absolute left-0 bottom-0" />
             </div>
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] right-[10%] bg-gradient-to-t from-green-600 via-[#00ff0052] to-transparent  ">
-            <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
+                <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
+                <img src={Characters.current[P2Details.current.selectionIndex].name_img} alt="Character_Name" className="absolute right-0 bottom-0" />
             </div>
-        {/* <div className=" fixed w-[55%] left-0 bg-gradient-to-t from-red-500 to-red-600 bg-clip-text text-transparent  text-5xl font-extrabold h-[50px] text-right bottom-[calc(10%+350px)] ">
-                {Characters.current[P1Details.current.selectionIndex].name}
-            </div>
-            <div className=" fixed w-full bg-gradient-to-t from-red-500 to-red-600 bg-clip-text text-transparent  text-5xl font-extrabold h-[50px] flex items-center justify-center bottom-[calc(10%+300px)] ">
-                VS
-            </div>
-            <div className=" fixed right-0 w-[55%] bg-gradient-to-t from-red-500 to-red-600 bg-clip-text text-transparent  text-5xl font-extrabold h-[50px] text-left bottom-[calc(10%+250px)] ">
-                {Characters.current[P2Details.current.selectionIndex].name}
-            </div> 
-        */}
+                <img src={'/PlayerSelect/Essentials/VS.png'} className="w-[8%] fixed left-[46%] bottom-[calc(10%+250px)]" />
+            <audio src={'/PlayerSelect/Audio/Player_Select_BGM.mp3'} ref={bgm}  loop />
             <audio src={'/PlayerSelect/Audio/PlayerChange.wav'} ref={playerChange} />
         </div>
     );
