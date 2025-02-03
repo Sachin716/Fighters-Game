@@ -50,7 +50,7 @@ const Local = () => {
         playerChange.current.volume = 0.2;
     }
 
-    function updateKeyStats(event) {
+    function handleKeyDown(event) {
 
         if (!P1Details.current.selected) {
             if (event.keyCode == 65) { // a
@@ -84,6 +84,7 @@ const Local = () => {
             localStorage.setItem("P1CharIndex", P1Details.current.selectionIndex)
             if (P1Details.current.selected && P2Details.current.selected) {
                 setTimeout(() => {
+                    localStorage.setItem("Bgm_Timer", bgm.current.currentTime)
                     router.push("/arenaSelect")
                 }, 800)
             }
@@ -93,6 +94,7 @@ const Local = () => {
             P2Details.current.selected = true
             localStorage.setItem("P2CharIndex", P2Details.current.selectionIndex)
             if (P1Details.current.selected && P2Details.current.selected) {
+                localStorage.setItem("Bgm_Timer", bgm.current.currentTime)
                 setTimeout(() => {
                     router.push("/arenaSelect")
                 }, 800)
@@ -101,10 +103,12 @@ const Local = () => {
 
         if (event.keyCode == 74) {
             localStorage.removeItem("P1Details")
+            P1Details.current.selected = false
         }
 
         if (event.keyCode == 100) {
             localStorage.removeItem("P2Details")
+            P2Details.current.selected = false
         }
 
         if (event.keyCode == 27) {
@@ -120,23 +124,13 @@ const Local = () => {
 
 
     useEffect(() => {
-        addEventListener('keydown', updateKeyStats)
+        addEventListener('keydown', handleKeyDown)
         return () => {
-            removeEventListener('keydown', updateKeyStats)
+            removeEventListener('keydown', handleKeyDown)
         }
     })
 
 
-
-    const playLoop = () => {
-        setP1Details({ ...P1Details.current })
-        setP2Details({ ...P2Details.current })
-        window.requestAnimationFrame(playLoop)
-    }
-
-    useEffect(() => {
-        playLoop();
-    }, [])
 
 
 
