@@ -166,10 +166,10 @@ export default function Home() {
 
     return (
         <div className="w-screen h-screen bg-zinc-700 flex">
-            <div>
-
+            <div className=" fixed w-full h-full bg-blue-500 object-cover flex">
+                <img src={Arenas.current[ArenaIndex.current.index].imgUrl} className="flex h-full items-center justify-center " alt="" />
             </div>
-            <div className="h-[100px] fixed w-[90%] bg-red-500 left-[5%] bottom-[12%] flex flex-row items-center justify-center">
+            <div className="h-[100px] fixed z-[5] w-[90%] bg-red-500 left-[5%] bottom-[12%] flex flex-row items-center justify-center">
                 {
                     Arenas.current.map((items, index) => {
                         if ((index >= ArenaIndex.current.index - 4) && (index <= ArenaIndex.current.index + 4)) {
