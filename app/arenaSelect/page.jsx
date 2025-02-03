@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
 
+    const router = useRouter();
+
     const ArenaIndex = useRef({
         Selected: false,
         index: 11
@@ -25,6 +27,22 @@ export default function Home() {
                 newindex = ((ArenaIndex.current.index + 1) % 8) + 8
                 ArenaIndex.current.index = newindex
             }
+            if (event.keyCode == 13) {
+                localStorage.setItem("imgUrl", Arenas.current[ArenaIndex.current.index].imgUrl)
+                localStorage.setItem("name", Arenas.current[ArenaIndex.current.index].name)
+                if (localStorage.getItem('mode') == "lc") {
+                    router.push("/Local")
+                }
+                if (localStorage.getItem('mode') == "ol") {
+                    router.push("/Online")
+                }
+                if (localStorage.getItem('mode') == "pr") {
+                    router.push("/Practice")
+                }
+                if (localStorage.getItem('mode') == "sp") {
+                    router.push("/Single")
+                }
+            }
         }
         setArena({ ...ArenaIndex.current })
     }
@@ -32,9 +50,11 @@ export default function Home() {
     useEffect(() => {
         bgm.current.play()
         bgm.current.volume = 0.2;
-        bgm.current.currentTime = localStorage.getItem("Bgm_Timer")
-        const newTimer = bgm.current.currentTime + performance.now() / 1000
-        bgm.current.currentTime = newTimer
+        const lastTime = localStorage.getItem("last_utx")
+        const currTime = Date.now()
+        const td = currTime - parseInt(lastTime, 10)
+        const playtime = parseFloat(localStorage.getItem("Bgm_Timer")) + td / 1000
+        bgm.current.currentTime = playtime
         addEventListener('keydown', handleKeyDown)
         return () => {
             removeEventListener('keydown', handleKeyDown)
