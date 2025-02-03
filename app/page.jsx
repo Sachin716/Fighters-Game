@@ -7,15 +7,15 @@ import { setTimeout } from "timers";
 
 export default function Home() {
 
-  useEffect(()=>{
-          if(window.innerHeight > window.innerWidth){
-              alert("The game isnt designed for the mobile Devices and is unplayable please try refraining from playing")
-          }
-      },[])
+  useEffect(() => {
+    if (window.innerHeight > window.innerWidth) {
+      alert("The game isnt designed for the mobile Devices and is unplayable please try refraining from playing")
+    }
+  }, [])
 
 
   async function handleRouting(params) {
-    await setInterval(1000,router.push('/playerSelect'))
+    await setInterval(1000, router.push('/playerSelect'))
   }
 
   const router = useRouter();
@@ -97,23 +97,23 @@ export default function Home() {
 
     if (event.keyCode == 13) {
       Selection.current.play()
-      if(modeIndexRef.current == 4){
-        localStorage.setItem("mode",'lc')
-        setTimeout(()=>{router.push('/playerSelect');},800)
+      if (modeIndexRef.current == 4) {
+        localStorage.setItem("mode", 'lc')
+        setTimeout(() => { router.push('/playerSelect'); }, 800)
       }
-      if(modeIndexRef.current == 5){
-        localStorage.setItem("mode",'ol')
-        setTimeout(()=>{router.push('/playerSelect');},800)
+      if (modeIndexRef.current == 5) {
+        localStorage.setItem("mode", 'ol')
+        setTimeout(() => { router.push('/playerSelect'); }, 800)
       }
-      if(modeIndexRef.current == 6){
-        localStorage.setItem("mode",'sp')
-        setTimeout(()=>{router.push('/playerSelect');},800)
+      if (modeIndexRef.current == 6) {
+        localStorage.setItem("mode", 'sp')
+        setTimeout(() => { router.push('/playerSelect'); }, 800)
       }
-      if(modeIndexRef.current == 7){
-        localStorage.setItem("mode",'pr')
-        setTimeout(()=>{router.push('/playerSelect');},800)
+      if (modeIndexRef.current == 7) {
+        localStorage.setItem("mode", 'pr')
+        setTimeout(() => { router.push('/playerSelect'); }, 800)
       }
-      
+
     }
     setMode(modeIndexRef.current)
   }
@@ -143,7 +143,8 @@ export default function Home() {
           modes.current.map((item, index) => {
             if ((index >= modeIndexRef.current - 1) && (index <= modeIndexRef.current + 1)) {
               if (index == modeIndexRef.current) {
-                return ( <div> <div className="h-[8px] bg-gradient-to-r from-[#ffffff11] via-white to-[#ffffff11] w-[70%] mx-auto"></div> <div key={index} className="bg-gradient-to-r from-transparent via-zinc-100 to-transparent w-[70%] mx-auto  "><div className="z-[100] text-center text-5xl font-bold m-auto text-rose-600">{item.name}</div></div> <div className="h-[8px] bg-gradient-to-r from-[#ffffff11] via-white to-[#ffffff11] w-[70%] mx-auto"></div> </div>)
+                return (<div key={index}> <div className="h-[8px] bg-gradient-to-r from-[#ffffff11] via-white to-[#ffffff11] w-[70%] mx-auto"></div> <div
+                   className="bg-gradient-to-r from-transparent via-zinc-100 to-transparent w-[70%] mx-auto  "><div className="z-[100] text-center text-5xl font-bold m-auto text-rose-600">{item.name}</div></div> <div className="h-[8px] bg-gradient-to-r from-[#ffffff11] via-white to-[#ffffff11] w-[70%] mx-auto"></div> </div>)
               }
               else {
                 return (<div className="z-[100] text-center text-3xl font-bold opacity-[70%] m-auto text-orange-600" key={index}>{item.name}</div>)
@@ -154,7 +155,7 @@ export default function Home() {
           })
         }
       </div>
-      
+
       <audio ref={change} src={'/ModeSelect/Change.mp3'} />
       <audio ref={Selection} src={'/ModeSelect/Selected.mp3'} />
     </div>
