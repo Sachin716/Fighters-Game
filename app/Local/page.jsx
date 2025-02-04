@@ -129,6 +129,7 @@ const Local = () => {
 
 
     const Player1 = useRef({
+        Round_Won: 0,
         health: 100,
         player: "",
         playerImage: "",
@@ -153,6 +154,7 @@ const Local = () => {
     })
 
     const Player2 = useRef({
+        Round_Won: 0,
         health: 100,
         player: "",
         playerImage: "",
