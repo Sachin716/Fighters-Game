@@ -8,6 +8,9 @@ import { useRef, useState } from "react";
 
 const Local = () => {
 
+    const BGM_Ref = useRef(false);
+
+
     const Characters = useRef(
         [
             {
@@ -124,7 +127,8 @@ const Local = () => {
         num8: false,
         num4: false,
         num6: false,
-        num: false
+        num: false,
+        esc : false // 27
     })
 
 
@@ -135,6 +139,7 @@ const Local = () => {
         playerImage: "",
         StateImg: "",
         isOnGround: true,
+        facing:1,
 
         Punch_1: {
             isHitting: false,
@@ -160,21 +165,31 @@ const Local = () => {
         playerImage: "",
         StateImg: "",
         isOnGround: true,
+        facing:-1,
 
         Punch_1: {
-
+            isHitting: false,
+            PositionHorizontal: 0,
+            PositionVertical: 0
         },
-        Projectile: {
-
+        Projectile: {   
+            isHitting: false,
+            PositionHorizontal: 0,
+            PositionVertical: 0
         },
         Kick_1: {
-
+            isHitting: false,
+            PositionHorizontal: 0,
+            PositionVertical: 0
         }
     })
 
     useEffect(() => {
-        // Player1.current.player = Characters.currnet[localStorage.getItem("P1Details")]
-        // Player2.current.player = Characters.currnet[localStorage.getItem("P2Details")]
+        BGM_Ref.current.play();
+        BGM_Ref.current.volume = 0.2;
+        BGM_Ref.current.currentTime = 60
+        Player1.current.player = Characters.current[parseInt(localStorage.getItem("P1CharIndex"))].name
+        Player2.current.player = Characters.current[parseInt(localStorage.getItem("P2CharIndex"))].name
     }, [])
 
     const handleKeyDown = (e, value) => {
@@ -211,6 +226,7 @@ const Local = () => {
             <div className="bg-zinc-50 fixed h-[50px] w-full bottom-[0px] ">
             </div>
             {/* <img src={localStorage.getItem("imgUrl")} alt="arena Image" className="flex" /> */}
+            <audio src={'/Gameplay/OverDrive.mp3'} ref={BGM_Ref} loop />
         </div>
     );
 
