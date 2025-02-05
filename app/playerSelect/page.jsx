@@ -5,8 +5,8 @@ import React from "react";
 import { useRef, useState, useEffect } from "react";
 import { setTimeout } from "timers";
 
-
 const Local = () => {
+
 
     useEffect(() => {
         if (!localStorage.getItem("mode")) {

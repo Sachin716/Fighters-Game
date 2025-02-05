@@ -103,7 +103,7 @@ export default function Home() {
       }
       if (modeIndexRef.current == 5) {
         localStorage.setItem("mode", 'ol')
-        setTimeout(() => { router.push('/playerSelect'); }, 800)
+        setTimeout(() => { router.push('/Online/onlineSelect'); }, 800)
       }
       if (modeIndexRef.current == 6) {
         localStorage.setItem("mode", 'sp')
