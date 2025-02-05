@@ -14,23 +14,32 @@ const Local = () => {
     const socketRef  = useRef(false)
 
     if((localStorage.getItem("mode") == "ol") && !connectionStatus.current){
-    socketRef.current = io('localhost:20000/PlayerSelect')
+    socketRef.current = io('192.168.1.2:20000/PlayerSelect')
     socketRef.current.on('Connection',()=>{
         console.log("connection successful")
     })
-    socketRef.current.on('Game_Joined',(data)=>{
-        console.log(data.client_id , data.message , data.player)
-        localStorage.setItem("player" , data.player)
-    })
-    socketRef.current.on('changed',(data)=>{
-        console.log(data)
-    })
+    
     connectionStatus.current=true
     }
 
 
+    socketRef.current.on('Game_Joined',(data)=>{
+        localStorage.setItem("player" , data.player)
+    })
     
 
+    socketRef.current.on('changed',(data)=>{
+        P1Details.current = data.P1Details
+        P1Details.current.selectionIndex = parseInt(data.P1Details.selectionIndex)
+
+        P2Details.current = data.P2Details
+        P2Details.current.selectionIndex = parseInt(data.P2Details.selectionIndex)
+
+        setP1Details({ ...P1Details.current })
+        setP2Details({ ...P2Details.current })
+    })
+
+    
     
 
 
@@ -81,10 +90,10 @@ const Local = () => {
 
         if (!P1Details.current.selected) {
             if (event.keyCode == 65) { // a
-                if(localStorage.getItem('player') == 1){
-                newindex = Math.max(0, P1Details.current.selectionIndex - 1);
-                P1Details.current.selectionIndex = newindex
-                handleChangeAudio();
+                if(localStorage.getItem('player') == "1"){
+                    newindex = Math.max(0, P1Details.current.selectionIndex - 1);
+                    P1Details.current.selectionIndex = newindex
+                    handleChangeAudio();
                 }
                 else{
                     newindex = Math.max(0, P2Details.current.selectionIndex - 1);
@@ -94,10 +103,10 @@ const Local = () => {
                 
             }
             if (event.keyCode == 68) { // d
-                if(localStorage.getItem('player') == 1){
-                newindex = Math.min(14, P1Details.current.selectionIndex + 1)
-                P1Details.current.selectionIndex = newindex
-                handleChangeAudio();
+                if(localStorage.getItem('player') == "1"){
+                    newindex = Math.min(14, P1Details.current.selectionIndex + 1)
+                    P1Details.current.selectionIndex = newindex
+                    handleChangeAudio();
                 }
                 else{
                     newindex = Math.min(14, P2Details.current.selectionIndex + 1)
@@ -117,13 +126,7 @@ const Local = () => {
             socketRef.current.emit('change',{...P2Details.current})
         }
 
-        socketRef.current.on('changed',(data)=>{
-            P1Details.current = data.P1Details
-            P1Details.current.selectionIndex = parseInt(data.P1Details.selectionIndex)
-
-            P2Details.current = data.P2Details
-            P2Details.current.selectionIndex = parseInt(data.P2Details.selectionIndex)
-        })
+        
 
         
 
