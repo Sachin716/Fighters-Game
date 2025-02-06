@@ -11,36 +11,38 @@ const Local = () => {
 
 
     var connectionStatus = useRef(false)
-    const socketRef  = useRef(false)
+    const socketRef = useRef(false)
 
-    if((localStorage.getItem("mode") == "ol") && !connectionStatus.current){
-    socketRef.current = io('192.168.1.2:20000/PlayerSelect')
-    socketRef.current.on('Connection',()=>{
-        console.log("connection successful")
-    })
-    
-    connectionStatus.current=true
+    if ((localStorage.getItem("mode") == "ol") && !connectionStatus.current) {
+        socketRef.current = io('192.168.1.198:20000/PlayerSelect')
+        socketRef.current.on('Connection', () => {
+            console.log("connection successful")
+        })
+
+        connectionStatus.current = true
     }
 
 
-    socketRef.current.on('Game_Joined',(data)=>{
-        localStorage.setItem("player" , data.player)
+    socketRef.current.on('Game_Joined', (data) => {
+        localStorage.setItem("player", data.player)
     })
-    
 
-    socketRef.current.on('changed',(data)=>{
-        P1Details.current = data.P1Details
+
+    socketRef.current.on('changed', (data) => {
+
+        P1Details.current.selected = data.P1Details.Selected
+        P2Details.current.selected = data.P2Details.Selected
+        P2Details.current.selectionIndex = parseInt(data.P2Details.selectionIndex)
         P1Details.current.selectionIndex = parseInt(data.P1Details.selectionIndex)
 
-        P2Details.current = data.P2Details
-        P2Details.current.selectionIndex = parseInt(data.P2Details.selectionIndex)
+        console.log(P1Details.current, P2Details.current)
 
         setP1Details({ ...P1Details.current })
         setP2Details({ ...P2Details.current })
     })
 
-    
-    
+
+
 
 
 
@@ -90,45 +92,45 @@ const Local = () => {
 
         if (!P1Details.current.selected) {
             if (event.keyCode == 65) { // a
-                if(localStorage.getItem('player') == "1"){
-                    newindex = Math.max(0, P1Details.current.selectionIndex - 1);
+                if (localStorage.getItem('player') == "1") {
+                    newindex = Math.max(0, parseInt(P1Details.current.selectionIndex) - 1);
                     P1Details.current.selectionIndex = newindex
                     handleChangeAudio();
                 }
-                else{
-                    newindex = Math.max(0, P2Details.current.selectionIndex - 1);
+                else if (localStorage.getItem('player') == "2") {
+                    newindex = Math.max(0, parseInt(P2Details.current.selectionIndex) - 1);
                     P2Details.current.selectionIndex = newindex
                     handleChangeAudio();
                 }
-                
+
             }
             if (event.keyCode == 68) { // d
-                if(localStorage.getItem('player') == "1"){
-                    newindex = Math.min(14, P1Details.current.selectionIndex + 1)
+                if (localStorage.getItem('player') == "1") {
+                    newindex = Math.min(14, parseInt(P1Details.current.selectionIndex) + 1)
                     P1Details.current.selectionIndex = newindex
                     handleChangeAudio();
                 }
-                else{
-                    newindex = Math.min(14, P2Details.current.selectionIndex + 1)
+                else if (localStorage.getItem('player') == "2") {
+                    newindex = Math.min(14, parseInt(P2Details.current.selectionIndex) + 1)
                     P2Details.current.selectionIndex = newindex
                     handleChangeAudio();
                 }
             }
-            
-            
-            
+
+
+
         }
 
-        if(localStorage.getItem('player') == "1"){
-            socketRef.current.emit('change',{...P1Details.current})
+        if (localStorage.getItem('player') == "1") {
+            socketRef.current.emit('change', { ...P1Details.current })
         }
-        else{
-            socketRef.current.emit('change',{...P2Details.current})
+        else {
+            socketRef.current.emit('change', { ...P2Details.current })
         }
 
-        
 
-        
+
+
 
         if (event.keyCode == 75) {
             P1Details.current.selected = true
@@ -307,12 +309,27 @@ const Local = () => {
 
 
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] left-[10%] bg-gradient-to-t from-blue-600 via-[#0000ff52] to-transparent  ">
-                <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
-                <img src={Characters.current[P1Details.current.selectionIndex].name_img} alt="Character_Name" className=" absolute left-0 bottom-0" />
+                {P1Details.current.selectionIndex &&
+                    (
+                        <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
+                    )
+                }
+                {P1Details.current.selectionIndex &&
+                    (<img src={Characters.current[P1Details.current.selectionIndex].name_img} alt="Character_Name" className=" absolute left-0 bottom-0" />
+                    )
+                }
             </div>
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] right-[10%] bg-gradient-to-t from-green-600 via-[#00ff0052] to-transparent  ">
-                <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
-                <img src={Characters.current[P2Details.current.selectionIndex].name_img} alt="Character_Name" className="absolute right-0 bottom-0" />
+                {P2Details.current.selectionIndex &&
+                    (
+                        <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
+                    )
+                }
+                {P2Details.current.selectionIndex &&
+                    (
+                        <img src={Characters.current[P2Details.current.selectionIndex].name_img} alt="Character_Name" className="absolute right-0 bottom-0" />
+                    )
+                }
             </div>
             <img src={'/PlayerSelect/Essentials/VS.png'} className="w-[8%] fixed left-[46%] bottom-[calc(10%+250px)]" />
             <audio src={'/PlayerSelect/Audio/Player_Select_BGM.mp3'} ref={bgm} loop />
