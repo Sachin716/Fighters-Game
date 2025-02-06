@@ -76,7 +76,7 @@ const Local = () => {
     }, [])
 
     const P2Details = useRef({
-        selectionIndex: 13,
+        selectionIndex: null,
         selected: false
     });
     const [P2DetailsState, setP2Details] = useState({ ...P2Details.current })
@@ -323,6 +323,14 @@ const Local = () => {
                 {P2Details.current.selectionIndex &&
                     (
                         <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
+                    )
+                }
+
+                {!P2Details.current.selectionIndex &&
+                    (
+                        <div className="h-[10%] w-full flex items-center justify-center m-auto bg-[#00000088]">
+                            Matching
+                        </div>
                     )
                 }
                 {P2Details.current.selectionIndex &&
