@@ -200,7 +200,16 @@ const Local = () => {
 
     }
 
+    useEffect(()=>{
+        soundloop()
+    })
 
+    const soundloop = () =>{
+        if(BGM_Ref.current.currentTime < 60){
+            BGM_Ref.current.currentTime = 60 
+        }
+        requestAnimationFrame(soundloop)
+    }
 
 
     const imgUrlRef = useRef("")
