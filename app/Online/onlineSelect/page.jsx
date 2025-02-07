@@ -76,7 +76,7 @@ const Local = () => {
     }, [])
 
     const P2Details = useRef({
-        selectionIndex: null,
+        selectionIndex: 13,
         selected: false
     });
     const [P2DetailsState, setP2Details] = useState({ ...P2Details.current })
@@ -286,7 +286,7 @@ const Local = () => {
         ]
     )
 
-    
+
 
     return (
         <div className="bg-stone-950 w-screen h-screen flex flex-col">
@@ -314,18 +314,18 @@ const Local = () => {
                 {P1Details.current.selectionIndex ?
                     (
                         <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
-                    ):("")
+                    ) : ("")
                 }
                 {P1Details.current.selectionIndex ?
                     (<img src={Characters.current[P1Details.current.selectionIndex].name_img} alt="Character_Name" className=" absolute left-0 bottom-0 h-[75px]" />
-                    ): ("")
+                    ) : ("")
                 }
             </div>
             <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] right-[10%] bg-gradient-to-t from-green-600 via-[#00ff0052] to-transparent  flex ">
                 {P2Details.current.selectionIndex ?
                     (
                         <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
-                    ):("")
+                    ) : ("")
                 }
 
                 {!P2Details.current.selectionIndex &&
@@ -338,7 +338,7 @@ const Local = () => {
                 {P2Details.current.selectionIndex ?
                     (
                         <img src={Characters.current[P2Details.current.selectionIndex].name_img} alt="Character_Name" className="absolute right-0 bottom-0  h-[75px]" />
-                    ):("")
+                    ) : ("")
                 }
             </div>
             <img src={'/PlayerSelect/Essentials/VS.png'} className="w-[8%] fixed left-[46%] bottom-[calc(10%+250px)]" />
