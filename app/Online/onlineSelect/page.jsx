@@ -290,6 +290,41 @@ const Local = () => {
 
     return (
         <div className="bg-stone-950 w-screen h-screen flex flex-col">
+            <img src={'/PlayerSelect/Images/Background.gif'} className="fixed w-screen object-cover" />
+            <img src={'/PlayerSelect/Images/TopCornerUIElement.png'} className="fixed w-[25px] left-0 top-0 object-cover" />
+            <img src={'/PlayerSelect/Images/TopCornerUIElement.png'} className="fixed w-[25px] right-0 top-0 -scale-x-100 object-cover" />
+            <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] left-[10%] bg-gradient-to-t from-blue-600 via-[#0000ff52] to-transparent  ">
+                {P1Details.current.selectionIndex ?
+                    (
+                        <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
+                    ) : ("")
+                }
+                {P1Details.current.selectionIndex ?
+                    (<img src={Characters.current[P1Details.current.selectionIndex].name_img} alt="Character_Name" className=" absolute left-0 bottom-8 h-[75px]" />
+                    ) : ("")
+                }
+            </div>
+            <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] right-[10%] bg-gradient-to-t from-green-600 via-[#00ff0052] to-transparent  flex ">
+                {P2Details.current.selectionIndex ?
+                    (
+                        <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
+                    ) : ("")
+                }
+
+                {!P2Details.current.selectionIndex &&
+                    (
+                        <div className="h-[10%] w-full flex items-center justify-center m-auto bg-[#00000088]">
+                            Matching...
+                        </div>
+                    )
+                }
+                {P2Details.current.selectionIndex ?
+                    (
+                        <img src={Characters.current[P2Details.current.selectionIndex].name_img} alt="Character_Name" className="absolute right-0 bottom-8  h-[75px]" />
+                    ) : ("")
+                }
+            </div>
+            <img src={'/PlayerSelect/Images/UiElements.png'} className="fixed w-screen h-[1080px] left-0 bottom-0" />
             <div className="w-[90%] h-[10%] fixed left-[5%] bottom-[100px] border-b-[5px] border-t-[5px] border-zinc-400 bg-red-500 flex">
                 {
                     Characters.current.map((c, index) => {
@@ -310,37 +345,7 @@ const Local = () => {
             </div>
 
 
-            <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] left-[10%] bg-gradient-to-t from-blue-600 via-[#0000ff52] to-transparent  ">
-                {P1Details.current.selectionIndex ?
-                    (
-                        <img src={Characters.current[P1Details.current.selectionIndex].showcase} alt={Characters.current[P1Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0 " />
-                    ) : ("")
-                }
-                {P1Details.current.selectionIndex ?
-                    (<img src={Characters.current[P1Details.current.selectionIndex].name_img} alt="Character_Name" className=" absolute left-0 bottom-0 h-[75px]" />
-                    ) : ("")
-                }
-            </div>
-            <div className="fixed w-[30%] h-[80%] bottom-[calc(10%+100px)] right-[10%] bg-gradient-to-t from-green-600 via-[#00ff0052] to-transparent  flex ">
-                {P2Details.current.selectionIndex ?
-                    (
-                        <img src={Characters.current[P2Details.current.selectionIndex].showcase} alt={Characters.current[P2Details.current.selectionIndex].name} className="object-cover w-full absolute bottom-0  scale-x-[-1]" />
-                    ) : ("")
-                }
-
-                {!P2Details.current.selectionIndex &&
-                    (
-                        <div className="h-[10%] w-full flex items-center justify-center m-auto bg-[#00000088]">
-                            Matching...
-                        </div>
-                    )
-                }
-                {P2Details.current.selectionIndex ?
-                    (
-                        <img src={Characters.current[P2Details.current.selectionIndex].name_img} alt="Character_Name" className="absolute right-0 bottom-0  h-[75px]" />
-                    ) : ("")
-                }
-            </div>
+            
             <img src={'/PlayerSelect/Essentials/VS.png'} className="w-[8%] fixed left-[46%] bottom-[calc(10%+250px)]" />
             <audio src={'/PlayerSelect/Audio/Player_Select_BGM.mp3'} ref={bgm} loop />
             <audio src={'/PlayerSelect/Audio/PlayerChange.wav'} ref={playerChange} />
