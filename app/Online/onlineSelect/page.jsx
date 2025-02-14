@@ -130,6 +130,13 @@ const Local = () => {
         playerChange.current.volume = 0.2;
     }
 
+    socketRef.current.on('changed', (data) => {
+        P1Details.current = data.Player1
+        P2Details.current = data.Player2
+        setP1Details(P1Details.current)
+        setP2Details(P2Details.current)
+    })
+
     function handleKeyDown(event) {
 
         if ((localStorage.getItem("username") != userData.current.username) || (userData.current.name != localStorage.getItem("name"))) {
