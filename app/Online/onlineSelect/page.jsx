@@ -9,37 +9,79 @@ import io from 'socket.io-client'
 
 const Local = () => {
 
+    const userData = useRef(null)
+
+    async function Validate() {
+        const token = localStorage.getItem("token").toString()
+        const response = await fetch('http://192.168.1.198:2000/login/Validate', { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: token }) })
+        const resData = await response.json()
+        localStorage.clear()
+        if (resData.status == 201) {
+            if ((localStorage.getItem('name') || localStorage.getItem("username")) && (resData.name != localStorage.getItem("name").toString() || resData.username != localStorage.getItem("username").stoString())) {
+                return {
+                    message: "Tempering with the data found",
+                    validated: false
+                }
+            }
+            localStorage.setItem("name", resData.name)
+            localStorage.setItem("username", resData.username)
+            userData.current = { username: resData.username, name: resData.name }
+            return {
+                message: "Login Successful",
+                validated: true
+            }
+        }
+        else {
+            return {
+                message: "Invalid Token",
+                validated: false
+            }
+        }
+    }
+
+
+
 
     var connectionStatus = useRef(false)
     const socketRef = useRef(false)
 
-    if ((localStorage.getItem("mode") == "ol") && !connectionStatus.current) {
-        socketRef.current = io('192.168.1.198:20000/PlayerSelect')
-        socketRef.current.on('Connection', () => {
-            console.log("connection successful")
-        })
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            router.push("/login")
+        }
 
+        const data = validate()
+        if (data.validated) {
+            if (!connectionStatus.current) {
+                socketRef.current = io('192.168.1.198:20000/PlayerSelect')
+            }
+            else {
+
+            }
+        }
+
+        else {
+            router.push("/login")
+        }
         connectionStatus.current = true
-    }
+    }, [])
 
+    socketRef.current.on("proceed", () => {
+        socketRef.current.emit("join", { token: localStorage.getItem(token).toString() })
+    })
 
-    socketRef.current.on('Game_Joined', (data) => {
+    socketRef.current.on("playerData", (data) => {
         localStorage.setItem("player", data.player)
     })
 
 
-    socketRef.current.on('changed', (data) => {
-
-        P1Details.current.selected = data.P1Details.Selected
-        P2Details.current.selected = data.P2Details.Selected
-        P2Details.current.selectionIndex = parseInt(data.P2Details.selectionIndex)
-        P1Details.current.selectionIndex = parseInt(data.P1Details.selectionIndex)
-
-        console.log(P1Details.current, P2Details.current)
-
-        setP1Details({ ...P1Details.current })
-        setP2Details({ ...P2Details.current })
+    socketRef.current.on("disconnection", () => {
+        socketRef.current.emit("check", { token: localStorage.getItem(token).toString(), playerNum: parseInt(localStorage.getItem(player)) })
     })
+
+
+
+
 
 
 
@@ -90,6 +132,10 @@ const Local = () => {
 
     function handleKeyDown(event) {
 
+        if ((localStorage.getItem("username") != userData.current.username) || (userData.current.name != localStorage.getItem("name"))) {
+            router.push("/login")
+        }
+
         if (!P1Details.current.selected) {
             if (event.keyCode == 65) { // a
                 if (localStorage.getItem('player') == "1") {
@@ -117,58 +163,20 @@ const Local = () => {
                 }
             }
 
-
-
         }
 
         if (localStorage.getItem('player') == "1") {
-            socketRef.current.emit('change', { ...P1Details.current })
+            socketRef.current.emit("playerChange", { token: localStorage.getItem("token").toString(), selectionIndex: P1Details.current.selectionIndex, Selected: P1Details.current.selected })
         }
         else {
-            socketRef.current.emit('change', { ...P2Details.current })
+            socketRef.current.emit("playerChange", { token: localStorage.getItem("token").toString(), selectionIndex: P2Details.current.selectionIndex, Selected: P2Details.current.selected })
         }
 
 
 
 
 
-        if (event.keyCode == 75) {
-            P1Details.current.selected = true
-            localStorage.setItem("P1CharIndex", P1Details.current.selectionIndex)
-            if (P1Details.current.selected && P2Details.current.selected) {
-                setTimeout(() => {
-                    localStorage.setItem("last_utx", Date.now().toString())
-                    localStorage.setItem("Bgm_Timer", bgm.current.currentTime)
-                    router.push("/arenaSelect")
-                }, 800)
-            }
-        }
 
-        if (event.keyCode == 98) {
-            P2Details.current.selected = true
-            localStorage.setItem("P2CharIndex", P2Details.current.selectionIndex)
-            if (P1Details.current.selected && P2Details.current.selected) {
-                localStorage.setItem("Bgm_Timer", bgm.current.currentTime)
-                setTimeout(() => {
-                    router.push("/arenaSelect")
-                }, 800)
-            }
-        }
-
-        if (event.keyCode == 74) {
-            localStorage.removeItem("P1Details")
-            P1Details.current.selected = false
-        }
-
-        if (event.keyCode == 100) {
-            localStorage.removeItem("P2Details")
-            P2Details.current.selected = false
-        }
-
-        if (event.keyCode == 27) {
-            localStorage.removeItem("mode")
-            router.push("/")
-        }
 
 
         setP1Details({ ...P1Details.current })
@@ -345,7 +353,7 @@ const Local = () => {
             </div>
 
 
-            
+
             <img src={'/PlayerSelect/Essentials/VS.png'} className="w-[8%] fixed left-[46%] bottom-[calc(10%+250px)]" />
             <audio src={'/PlayerSelect/Audio/Player_Select_BGM.mp3'} ref={bgm} loop />
             <audio src={'/PlayerSelect/Audio/PlayerChange.wav'} ref={playerChange} />
