@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react"
 
-import { useRef } from "react"
+import { useRef } from "react";
 
 const Signup = () => {
     const pname = useRef("")
@@ -16,6 +16,24 @@ const Signup = () => {
     }, [])
 
     const router = useRouter()
+
+    async function handleLogin(event) {
+        event.preventDefault();
+        const response = await fetch("http://192.168.1.198:2000/login/new", { method: "POST", headers: { 'Accept': '*/*', 'Content-type': 'application/json' }, body: JSON.stringify({ username: uname.current.value, password: pass.current.value, name: pname.current.value }) })
+        var data = await response.json()
+        if (data.status == 200) {
+            localStorage.setItem("token", data.token)
+            router.push("/")
+        }
+        else if (data.status == 401) {
+            alert(data.message)
+        }
+        else {
+            alert(data.message)
+            router.push("/Auth")
+        }
+        console.log(data)
+    }
 
 
 
