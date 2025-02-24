@@ -26,6 +26,7 @@ const LoginPage = () => {
         }
         else {
             localStorage.setItem("token", jsd.token)
+            router.push("/")
         }
         console.log(jsd)
         setLoading(false)
