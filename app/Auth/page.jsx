@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useReducer, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 
@@ -9,6 +10,7 @@ const LoginPage = () => {
     const uname = useRef("")
     const pass = useRef("")
     const [isLoading, setLoading] = useState(false)
+    const router = useRouter();
 
 
 
@@ -30,18 +32,23 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="w-screen h-screen bg-zinc-800 ">
-            <div className="m-auto">
-                <form >
-                    <input type="text" placeholder="username" className="absolute w-[20%] left-[40%] t-[100px]" ref={uname} />
-                    <input type="password" className="absolute w-[20%] left-[40%] t-[200px]" placeholder="password" ref={pass} />
+        <div className="w-screen h-screen bg-zinc-800 flex flex-col">
+            <div className="m-auto flex  h-[200px] rounded-lg border-[2px] border-zinc-700 w-[400px] mb-[5px] ">
+                <form className="flex flex-col w-full h-full bg-zinc-700">
+                    <input type="text" placeholder="Username" className="w-[100px] w-[90%] h-[50px] flex m-auto align-middle items-center rounded-lg justify-center text-center " ref={uname} />
+                    <input type="password" className="w-[100px] h-[50px] w-[90%] flex m-auto align-middle items-center rounded-lg justify-center text-center" placeholder="Password" ref={pass} />
                     {
-                        isLoading && (<input type="submit" className="w-[100px] bg-red-500 cursor-not-allowed" onClick={(event) => { handleLogin(event) }} />)
+                        isLoading && (<input type="submit" className="rounded-lg w-[100px] h-[50px] w-[90%] bg-red-500 cursor-not-allowed flex m-auto align-middle " onClick={(event) => { handleLogin(event) }} />)
                     }
                     {
-                        !isLoading && (<input type="submit" className="w-[100px] bg-red-500" onClick={(event) => { handleLogin(event) }} />)
+                        !isLoading && (<input type="submit" className="rounded-lg w-[100px] h-[50px] w-[90%] bg-red-500 flex m-auto align-middle hover:bg-red-600 hover:border-[2px] hover:border-red-800" onClick={(event) => { handleLogin(event) }} />)
                     }
                 </form>
+            </div>
+            <div className="flex m-auto h-[50px] mt-[5px] rounded-lg border-[2px] border-zinc-700 w-[400px]">
+                <div className="flex m-auto text-blue-600 cursor-pointer" onClick={() => { router.push('/Auth/signup') }}>
+                    dont have an account ? Sign Up
+                </div>
             </div>
         </div>
     )
