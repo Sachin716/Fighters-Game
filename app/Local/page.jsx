@@ -128,7 +128,7 @@ const Local = () => {
         num4: false,
         num6: false,
         num: false,
-        esc : false // 27
+        esc: false // 27
     })
 
 
@@ -139,7 +139,7 @@ const Local = () => {
         playerImage: "",
         StateImg: "",
         isOnGround: true,
-        facing:1,
+        facing: 1,
 
         Punch_1: {
             isHitting: false,
@@ -165,14 +165,14 @@ const Local = () => {
         playerImage: "",
         StateImg: "",
         isOnGround: true,
-        facing:-1,
+        facing: -1,
 
         Punch_1: {
             isHitting: false,
             PositionHorizontal: 0,
             PositionVertical: 0
         },
-        Projectile: {   
+        Projectile: {
             isHitting: false,
             PositionHorizontal: 0,
             PositionVertical: 0
@@ -200,13 +200,13 @@ const Local = () => {
 
     }
 
-    useEffect(()=>{
-        soundloop()
-    })
+    useEffect(() => {
+        playloop()
+    }, [])
 
-    const soundloop = () =>{
-        if(BGM_Ref.current.currentTime < 60){
-            BGM_Ref.current.currentTime = 60 
+    const playloop = () => {
+        if (BGM_Ref.current.currentTime < 60) {
+            BGM_Ref.current.currentTime = 60
         }
         requestAnimationFrame(soundloop)
     }
