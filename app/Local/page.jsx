@@ -140,7 +140,13 @@ const Local = () => {
         StateImg: "",
         isOnGround: true,
         facing: 1,
-
+        data: {
+            isHit: false,
+            PositionHorizontal: 0,
+            PositionVertical: 0,
+            VelocityVertical: 0,
+            VelocityHorizontal: 0
+        },
         Punch_1: {
             isHitting: false,
             PositionHorizontal: 0,
