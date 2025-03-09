@@ -17,7 +17,7 @@ const LoginPage = () => {
     async function handleLogin(event) {
         event.preventDefault();
         setLoading(true)
-        var reques = await fetch('http://192.168.1.198:2000/login/auth', { method: 'POST', headers: { 'Accept': '*/*', 'Content-type': 'application/json' }, body: JSON.stringify({ username: uname.current.value, password: pass.current.value }) })
+        var reques = await fetch('http://localhost:2000/login/auth', { method: 'POST', headers: { 'Accept': '*/*', 'Content-type': 'application/json' }, body: JSON.stringify({ username: uname.current.value, password: pass.current.value }) })
         const jsd = await reques.json()
         if (jsd.status == 403) {
             uname.current.value = ""
@@ -36,13 +36,13 @@ const LoginPage = () => {
         <div className="w-screen h-screen bg-zinc-800 flex flex-col">
             <div className="m-auto flex  h-[200px] rounded-lg border-[2px] border-zinc-700 w-[400px] mb-[5px] ">
                 <form className="flex flex-col w-full h-full bg-zinc-700">
-                    <input type="text" placeholder="Username" className="w-[100px] w-[90%] h-[50px] flex m-auto align-middle items-center rounded-lg justify-center text-center " ref={uname} />
-                    <input type="password" className="w-[100px] h-[50px] w-[90%] flex m-auto align-middle items-center rounded-lg justify-center text-center" placeholder="Password" ref={pass} />
+                    <input type="text" placeholder="Username" className=" w-[90%] h-[50px] flex m-auto align-middle items-center rounded-lg justify-center text-center " ref={uname} />
+                    <input type="password" className="h-[50px] w-[90%] flex m-auto align-middle items-center rounded-lg justify-center text-center" placeholder="Password" ref={pass} />
                     {
-                        isLoading && (<input type="submit" className="rounded-lg w-[100px] h-[50px] w-[90%] bg-red-500 cursor-not-allowed flex m-auto align-middle " onClick={(event) => { handleLogin(event) }} />)
+                        isLoading && (<input type="submit" className="rounded-lg h-[50px] w-[90%] bg-red-500 cursor-not-allowed flex m-auto align-middle " onClick={(event) => { handleLogin(event) }} />)
                     }
                     {
-                        !isLoading && (<input type="submit" className="rounded-lg w-[100px] h-[50px] w-[90%] bg-red-500 flex m-auto align-middle hover:bg-red-600 hover:border-[2px] hover:border-red-800" onClick={(event) => { handleLogin(event) }} />)
+                        !isLoading && (<input type="submit" className="rounded-lg h-[50px] w-[90%] bg-red-500 flex m-auto align-middle hover:bg-red-600 hover:border-[2px] hover:border-red-800" onClick={(event) => { handleLogin(event) }} />)
                     }
                 </form>
             </div>
