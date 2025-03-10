@@ -10,12 +10,22 @@ const Local = () => {
 
     const BGM_Ref = useRef(false);
     const frameref = useRef(0)
-    const [frameState , setFrame] = useState(0)
+    const [frameState, setFrame] = useState(0)
     const windowWidth = useRef(0)
-    useEffect(()=>{
+    useEffect(() => {
         windowWidth.current = window.innerWidth
         Player2.current.data.PositionHorizontal = window.innerWidth - 175
-    },[])
+    }, [])
+
+    const p1Moves = useRef({
+        isInitiated: false,
+        moves: []
+    })
+    const p2Moves = useRef({
+        isInitiated: false,
+        moves: []
+
+    })
 
 
 
@@ -173,7 +183,7 @@ const Local = () => {
             PositionVertical: 0
         }
     })
-    
+
     const Player2 = useRef({
         Round_Won: 0,
         health: 100,
@@ -208,9 +218,9 @@ const Local = () => {
     })
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[])
+    }, [])
 
     useEffect(() => {
         BGM_Ref.current.play();
@@ -221,8 +231,8 @@ const Local = () => {
     }, [])
 
     const handleKeyDown = (e, value) => {
-        const keyCode = e.keyCode;  
-    
+        const keyCode = e.keyCode;
+
         if (keyCode === 87) {  // 'w'
             keyStats.current.w = value;
         }
@@ -237,15 +247,23 @@ const Local = () => {
         }
         if (keyCode === 74) {  // 'j'
             keyStats.current.j = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('j')
         }
         if (keyCode === 75) {  // 'k'
             keyStats.current.k = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('k')
         }
         if (keyCode === 76) {  // 'l'
             keyStats.current.l = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('l')
         }
         if (keyCode === 73) {  // 'i'
             keyStats.current.i = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('i')
         }
         if (keyCode === 38) {  // 'ArrowUp'
             keyStats.current.up = value;
@@ -261,35 +279,51 @@ const Local = () => {
         }
         if (keyCode === 56) {  // 'Num8'
             keyStats.current.num8 = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('8')
         }
         if (keyCode === 52) {  // 'Num4'
             keyStats.current.num4 = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('4')
         }
         if (keyCode === 54) {  // 'Num6'
             keyStats.current.num6 = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('6')
         }
         if (keyCode === 50) {  // 'Num2'
             keyStats.current.num2 = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('2')
         }
         if (keyCode === 27) {  // 'esc'
             keyStats.current.esc = value;
         }
     };
-    
+
     const handleKeyUp = (e, value) => {
-        const keyCode = e.keyCode;  
-    
+        const keyCode = e.keyCode;
+
         if (keyCode === 87) {  // 'w'
             keyStats.current.w = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('w')
         }
         if (keyCode === 83) {  // 's'
             keyStats.current.s = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('s')
         }
         if (keyCode === 65) {  // 'a'
             keyStats.current.a = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('a')
         }
         if (keyCode === 68) {  // 'd'
             keyStats.current.d = value;
+            p1Moves.current.isInitiated = true
+            p1Moves.current.moves.push('d')
         }
         if (keyCode === 74) {  // 'j'
             keyStats.current.j = value;
@@ -305,15 +339,24 @@ const Local = () => {
         }
         if (keyCode === 38) {  // 'ArrowUp'
             keyStats.current.up = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('up')
         }
         if (keyCode === 40) {  // 'ArrowDown'
             keyStats.current.down = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('down')
         }
         if (keyCode === 37) {  // 'ArrowLeft'
             keyStats.current.left = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('left')
+
         }
         if (keyCode === 39) {  // 'ArrowRight'
             keyStats.current.right = value;
+            p2Moves.current.isInitiated = true
+            p2Moves.current.moves.push('right')
         }
         if (keyCode === 56) {  // 'Num8'
             keyStats.current.num8 = value;
@@ -333,32 +376,63 @@ const Local = () => {
     };
 
     var timing = 0
-    
-    function handleTime(dt){
+
+    function handleTime(dt) {
         timing = timing + dt
-        if(timing >= 1000){
+        if (timing >= 1000) {
             time.current = time.current - 1
-            timing = timing%1000
+            timing = timing % 1000
         }
     }
 
-    function handlePlayer1Movement(dt){
-        if(keyStats.current.a){
-            if(Player1.current.data.PositionHorizontal <=0){
+    var p1movesTiming = 0
+    function handleP1MovesetRefresh(dt) {
+        if (p1Moves.current.isInitiated) {
+            p1movesTiming = p1movesTiming + dt
+            if (p1movesTiming >= 100) {
+                p1MovesTiming = 0
+                p1Moves.current.moves = []
+                p1Moves.current.isInitiated = false
+            }
+        }
+        else {
+
+        }
+    }
+
+    var p2MovesTiming = 0
+    function handleP2MovesetRefresh(dt) {
+        if (p2Moves.current.isInitiated) {
+            p2MovesTiming = p2MovesTiming + dt
+            if (p2MovesTiming >= 100) {
+                p2MovesTiming = 0
+                p2Moves.current.moves = []
+                p2Moves.current.isInitiated = false
+            }
+        }
+        else {
+
+        }
+    }
+
+
+    function handlePlayer1Movement(dt) {
+        if (keyStats.current.a) {
+            if (Player1.current.data.PositionHorizontal <= 0) {
                 Player1.current.data.PositionHorizontal = 0
             }
-            else{
-                Player1.current.data.PositionHorizontal = Player1.current.data.PositionHorizontal - 400 *(dt/1000)
+            else {
+                Player1.current.data.PositionHorizontal = Player1.current.data.PositionHorizontal - 400 * (dt / 1000)
             }
-            
+
         }
-        if(keyStats.current.d){
-            
-            if(Player1.current.data.PositionHorizontal >= windowWidth.current-75){
-                Player1.current.data.PositionHorizontal = windowWidth.current-75
+        if (keyStats.current.d) {
+
+            if (Player1.current.data.PositionHorizontal >= windowWidth.current - 75) {
+                Player1.current.data.PositionHorizontal = windowWidth.current - 75
             }
-            else{
-                Player1.current.data.PositionHorizontal = Player1.current.data.PositionHorizontal + 400 *(dt/1000)  
+            else {
+                Player1.current.data.PositionHorizontal = Player1.current.data.PositionHorizontal + 400 * (dt / 1000)
             }
         }
         // if(keyStats.current.w){
@@ -369,24 +443,24 @@ const Local = () => {
         // }
     }
 
-    function handlePlayer2Movement(dt){
-        
-        if(keyStats.current.left){
-            if(Player2.current.data.PositionHorizontal <=0){
+    function handlePlayer2Movement(dt) {
+
+        if (keyStats.current.left) {
+            if (Player2.current.data.PositionHorizontal <= 0) {
                 Player2.current.data.PositionHorizontal = 0
             }
-            else{
-                Player2.current.data.PositionHorizontal = Player2.current.data.PositionHorizontal - 400 *(dt/1000)
+            else {
+                Player2.current.data.PositionHorizontal = Player2.current.data.PositionHorizontal - 400 * (dt / 1000)
             }
-            
+
         }
-        if(keyStats.current.right){
-            
-            if(Player2.current.data.PositionHorizontal >= windowWidth.current-75){
-                Player2.current.data.PositionHorizontal = windowWidth.current-75
+        if (keyStats.current.right) {
+
+            if (Player2.current.data.PositionHorizontal >= windowWidth.current - 75) {
+                Player2.current.data.PositionHorizontal = windowWidth.current - 75
             }
-            else{
-                Player2.current.data.PositionHorizontal = Player2.current.data.PositionHorizontal + 400 *(dt/1000)  
+            else {
+                Player2.current.data.PositionHorizontal = Player2.current.data.PositionHorizontal + 400 * (dt / 1000)
             }
         }
         // if(keyStats.current.up){
@@ -396,11 +470,22 @@ const Local = () => {
         //     Player1.current.data.PositionHorizontal = Player1.current.data.PositionHorizontal - 400 *(dt/1000)
         // }
     }
-    
-    function GameLogic(dt){
+
+    var tickTime = 0
+
+    function handleGameTick(dt) {
+        tickTime = tickTime + dt
+        if (tickTime >= 50) {
+            tickTime = tickTime % 50
+        }
+    }
+
+    function GameLogic(dt) {
         handleTime(dt)
         handlePlayer1Movement(dt)
         handlePlayer2Movement(dt)
+        handleP1MovesetRefresh(dt)
+        handleP2MovesetRefresh(dt)
     }
 
     useEffect(() => {
@@ -416,21 +501,21 @@ const Local = () => {
         if (BGM_Ref.current.currentTime < 60) {
             BGM_Ref.current.currentTime = 60
         }
-        
-        frameref.current = frameref.current+1
+
+        frameref.current = frameref.current + 1
         setFrame(frameref.current)
         requestAnimationFrame(playloop)
         GameLogic(dt)
-        
+
     }
-    
+
 
     const imgUrlRef = useRef("")
     useEffect(() => {
         // imgUrlRef.current = localStorage.getItem("imgUrl")
         addEventListener('keydown', (event) => { handleKeyDown(event, true) })
         addEventListener('keyup', (event) => { handleKeyUp(event, false) })
-        
+
     }, [])
 
 
@@ -451,19 +536,32 @@ const Local = () => {
             <div className="flex  bg-transparent w-[100px] h-[35px] p-auto m-auto z-100 mt-[20px] text-3xl justify-center font-extrabold">
                 {`${time.current}`}
             </div>
-            <div className="absolute z-[200] w-[75px] h-[150px] bg-white" style={{
-                left:`${Player1.current.data.PositionHorizontal}px`,
-                bottom:`${Player1.current.data.PositionVertical}px`
-            }} >
 
+
+            <div className="absolute z-[200] w-[75px] h-[125px] bg-white" style={{
+                left: `${Player1.current.data.PositionHorizontal}px`,
+                bottom: `${Player1.current.data.PositionVertical}px`
+            }} >
+            </div>
+            <div className="absolute z-[200] w-[25px] h-[25px] bg-white" style={{
+                left: `${Player1.current.data.PositionHorizontal + 25}px`,
+                bottom: `${Player1.current.data.PositionVertical + 125}px`
+            }}>
             </div>
 
-            <div className="absolute z-[200] w-[75px] h-[150px] bg-white" style={{
-                left:`${Player2.current.data.PositionHorizontal}px`,
-                bottom:`${Player2.current.data.PositionVertical}px`
-            }} >
 
+
+            <div className="absolute z-[200] w-[75px] h-[125px] bg-white" style={{
+                left: `${Player2.current.data.PositionHorizontal}px`,
+                bottom: `${Player2.current.data.PositionVertical}px`
+            }} >
             </div>
+            <div className="absolute z-[200] w-[25px] h-[25px] bg-white" style={{
+                left: `${Player2.current.data.PositionHorizontal + 25}px`,
+                bottom: `${Player2.current.data.PositionVertical + 125}px`
+            }}></div>
+
+
 
             <div className="absolute z-[200] bg-white">
 

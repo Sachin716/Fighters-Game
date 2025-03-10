@@ -3,9 +3,17 @@ import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { setTimeout } from "timers";
+import { saveData, recallData, clearData } from "../functions/UserDataHandling";
+import { routing } from "../functions/RoutingHandling";
 
 
 export default function Home() {
+
+  const userData = useRef({
+    name: "",
+    username: ""
+  })
+
 
   useEffect(() => {
     if (window.innerHeight > window.innerWidth) {
@@ -14,13 +22,30 @@ export default function Home() {
     if (!localStorage.getItem("token")) {
       router.push('/Auth')
     }
+    if (localStorage.getItem("token")) {
+      console.log("function working")
+      handleValidation()
+
+    }
 
   }, [])
 
+  async function handleValidation() {
+    const token = localStorage.getItem("token")
+    const res = await fetch('http://192.168.1.198:2000/login/Validate', { method: "POST", headers: { 'Accept': '*/*', 'Content-type': 'application/json' }, body: JSON.stringify({ "token": token }) })
+    const data = await res.json()
+    console.log(data)
+    if (data.status == "Invalid token") {
+      router.push('/Auth')
+    }
+    else {
+      userData.current.name = data.name
+      userData.current.username = data.username
+    }
 
-  async function handleRouting(params) {
-    await setInterval(1000, router.push('/playerSelect'))
   }
+
+
 
   const router = useRouter();
   const [modeIndex, setMode] = useState(4)
@@ -103,19 +128,19 @@ export default function Home() {
       Selection.current.play()
       if (modeIndexRef.current == 4) {
         localStorage.setItem("mode", 'lc')
-        setTimeout(() => { router.push('/playerSelect'); }, 800)
+        setTimeout(() => { router.push('/playerSelect'); saveData(userData.current.name, userData.current.username) }, 800)
       }
       if (modeIndexRef.current == 5) {
         localStorage.setItem("mode", 'ol')
-        setTimeout(() => { router.push('/Online/onlineSelect'); }, 800)
+        setTimeout(() => { router.push('/Online/onlineSelect'); saveData(userData.current.name, userData.current.username) }, 800)
       }
       if (modeIndexRef.current == 6) {
         localStorage.setItem("mode", 'sp')
-        setTimeout(() => { router.push('/playerSelect'); }, 800)
+        setTimeout(() => { router.push('/playerSelect'); saveData(userData.current.name, userData.current.username) }, 800)
       }
       if (modeIndexRef.current == 7) {
         localStorage.setItem("mode", 'pr')
-        setTimeout(() => { router.push('/playerSelect'); }, 800)
+        setTimeout(() => { router.push('/playerSelect'); saveData(userData.current.name, userData.current.username) }, 800)
       }
 
     }

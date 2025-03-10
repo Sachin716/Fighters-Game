@@ -4,8 +4,21 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useRef, useState, useEffect } from "react";
 import { setTimeout } from "timers";
+import { routingSuccess } from "../../functions/RoutingHandling";
+import { clearData, recallData } from "../../functions/UserDataHandling";
+
 
 const Local = () => {
+
+    const userData = useRef({})
+    userData.current = recallData()
+    console.log(userData.current)
+    setTimeout(() => {
+        clearData()
+    }, 1000)
+
+
+
 
 
     useEffect(() => {
@@ -41,6 +54,7 @@ const Local = () => {
         selectionIndex: 13,
         selected: false
     });
+
     const [P2DetailsState, setP2Details] = useState({ ...P2Details.current })
     var newindex = 0
 
@@ -265,7 +279,7 @@ const Local = () => {
                     })
                 }
             </div>
-            
+
             <img src={'/PlayerSelect/Essentials/VS.png'} className="w-[8%] fixed left-[46%] bottom-[calc(10%+250px)]" />
             <audio src={'/PlayerSelect/Audio/Player_Select_BGM.mp3'} ref={bgm} loop />
             <audio src={'/PlayerSelect/Audio/PlayerChange.wav'} ref={playerChange} />
